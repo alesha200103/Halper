@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "halper"
+version = "0.1.0"
+description = "Desctop halper"
+authors = ["a.i.merzlyakov"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+speechrecognition = "^3.10.1"
+pyaudio = "^0.2.14"
+vosk = "^0.3.45"
+pydantic = "^2.6.1"
+pydantic-settings = "^2.1.0"
+black = "^24.1.1"
+isort = "^5.13.2"
+logger = "^1.4"
+sentry-sdk = "^1.40.3"
+pytest = "^8.0.0"
+faker = "^23.1.0"
+pytest-cov = "^4.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
