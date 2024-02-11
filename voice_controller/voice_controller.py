@@ -1,8 +1,7 @@
 from time import time
 
-import speech_recognition  # распознавание пользовательской речи
 from voice_controller.settings import VoiceControllerSettings
-from speech_recognition import AudioData, WaitTimeoutError
+from speech_recognition import AudioData, WaitTimeoutError, Recognizer, Microphone  # распознавание речи
 from logging_helper import get_logging_helper
 
 
@@ -10,14 +9,17 @@ logger = get_logging_helper(__name__)
 
 
 class VoiceController:
-    def __init__(self, settings: VoiceControllerSettings):
+    def __init__(self, settings: VoiceControllerSettings, recognizer: Recognizer, microphone: Microphone):
         self._settings = settings
-        self._recognizer = speech_recognition.Recognizer()
-        self._microphone = speech_recognition.Microphone(
-            device_index=self._settings.microphone_index
-        )
+        self._recognizer = recognizer
+        self._microphone = microphone
+        self._microphone.device_index = self._settings.microphone_index
+        # self._recognizer = speech_recognition.Recognizer()
+        # self._microphone = speech_recognition.Microphone(
+        #     device_index=self._settings.microphone_index
+        # )
 
-    def _listen(self) -> AudioData | None:
+    def listen(self) -> AudioData | None:
         """
         Запись и распознавание аудио.
         """
@@ -41,7 +43,7 @@ class VoiceController:
 
             return audio
 
-    def _background_listen(self) -> AudioData:
+    def background_listen(self) -> AudioData:
         self._recognizer.energy_threshold = self._settings.background_energy_threshold
         self._recognizer.dynamic_energy_threshold = (
             self._settings.background_dynamic_energy_threshold
